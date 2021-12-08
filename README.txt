@@ -308,7 +308,7 @@ and in healPlayer() :
         </ul>
 
 10-6:make styling more beautiful:
-       " <ul>
+        <ul>
           <li v-for="logMessage in logMessages">
             <span :class="{'log--player':logMessage.actionBy==='player','log--monster':logMessage.actionBy==='monster'}">
               {{logMessage.actionBy==='player'?'player':'monster'}}
@@ -326,4 +326,4 @@ and in healPlayer() :
              attacks and deals<span class="log--damage">{{logMessage.actionValue}}</span>
             </span>
           </li>
-        </ul>"
+        </ul>
