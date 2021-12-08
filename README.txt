@@ -1,16 +1,14 @@
+Write a simple vue.js game
+
 1-we can create a Vue app by calling
 var app=new Vue({
     el:'#game',   =>Your html section where vue.js should work! in Project is #game
 
 })
-
-So now we got a Vue app connected to this div,and now the question is with which parts do we wanna start?
-
-
-
+So now we got a Vue app connected to this div.
 
 2-Attack button:
-So the attack button here when pressed should of course, reduce the Monster's health, but at the same time,the monster should then also strike back! i use reduce some randomness.
+So the attack button here when pressed should of course, reduce the Monster's health, but at the same time,the monster should then also strike back! I use reduce some randomness.
 function getRandomValue(max,min){
     return Math.floor(Math.random()*(max-min)+min);
 }
@@ -63,14 +61,15 @@ var app=new Vue({
 
  in html:
 Instead of: style, we can use v-bind: style!
-   <section id="monster" class="container">
-         <h2>Monster Health</h2>
+
+  <section id="monster" class="container">
+         <span>Monster Health</span>
          <div class="healthbar">
            <div class="healthbar__value" :style="monsterStyleBar"></div>
          </div>
        </section>
        <section id="player" class="container">
-         <h2>Your Health</h2>
+         <span>Your Health</span>
          <div class="healthbar">
            <div class="healthbar__value" :style="playerStyleBar"></div>
          </div>
@@ -78,13 +77,11 @@ Instead of: style, we can use v-bind: style!
 
 
 
-4- Adding a "Special Attack"
 
+4- Adding a "Special Attack"
 I want to do the same as an attack monster, but we should deal more damage. On the other hand and to not make this too powerful, the special attack should therefore not be available all the time,
 but only every three rounds.
-
 In the method section of app.js add this function e.g. specialAttackMonster:
-
     specialAttack(){
          const attackValue=getRandomValue(25,10);
          this.monsterHealth-=attackValue;
@@ -113,14 +110,12 @@ and also, i'll set this.currentRound+ in specialAttack() :
          .
 
      }
-
 we can only use it every three rounds. with this condition currentRound % 3!==0
-
 therefore add in computed:
-
  mayUseSpecialAttack() {
                  return this.currentRound % 3 !== 0
              }
+
 in html :
   <button @click="specialAttack()" :disabled="mayUseSpecialAttack">SPECIAL ATTACK</button>
 
@@ -151,7 +146,6 @@ And we could check if maybe all the Monster health is below zero and so on.
 But we would have to repeat this check in the special attack monster function and so on.
 So repeating the same code in all of these places is not what we want to do because repeating code is never good.
 We could add a watcher!
-
 we want to watch two properties, playerHealth and monsterHealth therefore in watch:
   data:{
         playerHealth:100,
@@ -184,21 +178,18 @@ we want to watch two properties, playerHealth and monsterHealth therefore in wat
               this.winner='player'
             }
         }
-
-
     },
 
-
-Html:
+In Html:
       <section class="container" v-if="winner">
-        <h2>Game Over!</h2>
-        <h3 v-if="winner==='monster'">You lost!</h3>
-        <h3 v-else-if="winner==='player'">You won!</h3>
-        <h3 v-else>It's a draw!</h3>
+        <div>Game Over!</div>
+        <div v-if="winner==='monster'">You lost!</div>
+        <div  v-else-if="winner==='player'">You won!</div>
+        <div v-else>It's a draw!</div>
       </section>
 
 
-7- Add button "start new game"
+7- Add button "start new game":
 in methods:
    startNewGame() {
             //reset all those parameters
@@ -208,9 +199,9 @@ in methods:
             this.winner=null
 
         },
-in Html: You add the button in the previous part !
-
-      <section class="container" v-if="winner">
+in Html:
+ You add the button in the previous part !
+       <section class="container" v-if="winner">
         <h2>Game Over!</h2>
         <h3 v-if="winner==='monster'">You lost!</h3>
         <h3 v-else-if="winner==='player'">You won!</h3>
@@ -308,7 +299,6 @@ and in healPlayer() :
            .
         },
 
-
 10-5: in html, show our logs:
         <ul>
           <li v-for="logMessage in logMessages">
@@ -318,17 +308,22 @@ and in healPlayer() :
         </ul>
 
 10-6:make styling more beautiful:
-        <ul>
+       " <ul>
           <li v-for="logMessage in logMessages">
             <span :class="{'log--player':logMessage.actionBy==='player','log--monster':logMessage.actionBy==='monster'}">
               {{logMessage.actionBy==='player'?'player':'monster'}}
             </span>
 
-            <span v-if="logMessage.actionType==='heal'">
+        <ul>
+          <li v-for="logMessage in logMessages">
+            <span :class="{'log--player':logMessage.actionBy==='player','log--monster':logMessage.actionBy==='monster'}">
+              {{logMessage.actionBy==='player'?'player':'monster'}}
+            </span>
+             <span v-if="logMessage.actionType==='heal'">
               heals himself for  <span class="log--heal">{{logMessage.actionValue}}</span>
             </span>
             <span v-else>
              attacks and deals<span class="log--damage">{{logMessage.actionValue}}</span>
             </span>
           </li>
-        </ul>
+        </ul>"
